@@ -6,6 +6,12 @@ FPREFIX=$3
 REPEAT=$4
 FOUT=$5
 
+if [[ $# -ne 5 ]]
+then
+    echo "Usage: $0 <timeout> <folder> <file_prefix> <num_repetitions> <output_file>"
+    exit 2
+fi
+
 LINE=$(echo -n "num_verts prob_arc max_cap seed")
 for IND in $(seq 1 $REPEAT)
 do
@@ -28,18 +34,39 @@ do
     do
         echo "[LOOP] $IND"
         echo -n "[EXEC] DINIC..."
-        DINIC=$(./Dinic $TIMEOUT "$FOLDER/$FILE" | tail -n1)
-        echo "done!"
+        DINIC=$(./Dinic $TIMEOUT "$FOLDER/$FILE")
+        DINICTIME=$(echo $DINIC | cut -d" " -f2)
+
+        if [[ $(echo $DINIC | cut -d" " -f1) == "-1" ]]
+        then
+            echo "timeout!"
+        else
+            echo "done!"
+        fi
 
         echo -n "[EXEC] EK..."
-        EK=$(./EK $TIMEOUT "$FOLDER/$FILE" | tail -n1)
-        echo "done!"
+        EK=$(./EK $TIMEOUT "$FOLDER/$FILE")
+        EKTIME=$(echo $EK | cut -d" " -f2)
+
+        if [[ $(echo $EK | cut -d" " -f1) == "-1" ]]
+        then
+            echo "timeout!"
+        else
+            echo "done!"
+        fi
 
         echo -n "[EXEC] MPM..."
-        MPM=$(./MPM $TIMEOUT "$FOLDER/$FILE" | tail -n1)
-        echo "done!"
+        MPM=$(./MPM $TIMEOUT "$FOLDER/$FILE")
+        MPMTIME=$(echo $MPM | cut -d" " -f2)
 
-        LINE=$(echo -n "$LINE $DINIC$IND $EK$IND $MPM$IND")
+        if [[ $(echo $MPM | cut -d" " -f1) == "-1" ]]
+        then
+            echo "timeout!"
+        else
+            echo "done!"
+        fi
+
+        LINE=$(echo -n "$LINE $DINICTIME $EKTIME $MPMTIME")
     done
 
     echo "$LINE" >> $FOUT
