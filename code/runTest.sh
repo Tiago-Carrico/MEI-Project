@@ -12,7 +12,7 @@ then
     exit 2
 fi
 
-LINE=$(echo -n "num_verts prob_arc max_cap seed")
+LINE=$(echo -n "num_verts prob_arc num_arcs max_cap seed")
 for IND in $(seq 1 $REPEAT)
 do
     LINE=$(echo -n "$LINE dinic$IND ek$IND mpm$IND")
@@ -27,8 +27,9 @@ do
     PROBARC=$(echo -n $FILE | cut -d_ -f3)
     MAXCAP=$(echo -n $FILE | cut -d_ -f4)
     SEED=$(echo -n ${FILE%.*} | cut -d_ -f5)
+    ARC=$(cat "$FOLDER/$FILE" | head -n1 | cut -d" " -f2)
 
-    LINE=$(echo -n "$VERTS $PROBARC $MAXCAP $SEED")
+    LINE=$(echo -n "$VERTS $PROBARC $ARC $MAXCAP $SEED")
 
     for IND in $(seq 1 $REPEAT)
     do
