@@ -28,6 +28,7 @@ do
     MAXCAP=$(echo -n $FILE | cut -d_ -f4)
     SEED=$(echo -n ${FILE%.*} | cut -d_ -f5)
     ARC=$(cat "$FOLDER/$FILE" | head -n1 | cut -d" " -f2)
+    ARc=$(echo -n $ARC)
 
     LINE=$(echo -n "$VERTS $PROBARC $ARC $MAXCAP $SEED")
 
