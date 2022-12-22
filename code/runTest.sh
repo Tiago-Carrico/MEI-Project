@@ -12,11 +12,11 @@ then
     exit 2
 fi
 
-LINE=$(echo -n "num_verts prob_arc num_arcs max_cap seed")
-for IND in $(seq 1 $REPEAT)
-do
-    LINE=$(echo -n "$LINE dinic$IND ek$IND mpm$IND")
-done
+LINE=$(echo -n "num_verts prob_arc num_arcs max_cap seed algo time")
+# for IND in $(seq 1 $REPEAT)
+# do
+#     LINE=$(echo -n "$LINE dinic$IND ek$IND mpm$IND")
+# done
 echo "$LINE" >> $FOUT
 
 for FILE in $(ls ./$FOLDER | grep $FPREFIX)
@@ -44,6 +44,7 @@ do
             echo "timeout!"
         else
             echo "done!"
+            echo "$LINE dinic $DINICTIME" >> $FOUT
         fi
 
         echo -n "[EXEC] EK..."
@@ -55,6 +56,7 @@ do
             echo "timeout!"
         else
             echo "done!"
+            echo "$LINE ek $EKTIME" >> $FOUT
         fi
 
         echo -n "[EXEC] MPM..."
@@ -66,10 +68,7 @@ do
             echo "timeout!"
         else
             echo "done!"
+            echo "$LINE mpm $MPMTIME" >> $FOUT
         fi
-
-        LINE=$(echo -n "$LINE $DINICTIME $EKTIME $MPMTIME")
     done
-
-    echo "$LINE" >> $FOUT
 done
