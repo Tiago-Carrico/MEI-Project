@@ -35,7 +35,7 @@ do
     for IND in $(seq 1 $REPEAT)
     do
         echo "[LOOP] $IND"
-        echo -n "[EXEC] DINIC..."
+        echo -n "\t[EXEC] DINIC..."
         DINIC=$(./Dinic $TIMEOUT "$FOLDER/$FILE")
         DINICTIME=$(echo $DINIC | cut -d" " -f2)
 
@@ -47,7 +47,7 @@ do
             echo "$LINE dinic $DINICTIME" >> $FOUT
         fi
 
-        echo -n "[EXEC] EK..."
+        echo -n "\t[EXEC] EK..."
         EK=$(./EK $TIMEOUT "$FOLDER/$FILE")
         EKTIME=$(echo $EK | cut -d" " -f2)
 
@@ -59,7 +59,7 @@ do
             echo "$LINE ek $EKTIME" >> $FOUT
         fi
 
-        echo -n "[EXEC] MPM..."
+        echo -n "\t[EXEC] MPM..."
         MPM=$(./MPM $TIMEOUT "$FOLDER/$FILE")
         MPMTIME=$(echo $MPM | cut -d" " -f2)
 
