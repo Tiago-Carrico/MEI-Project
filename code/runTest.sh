@@ -12,7 +12,7 @@ then
     exit 2
 fi
 
-LINE=$(echo -n "num_verts prob_arc num_arcs max_cap seed algo time")
+LINE=$(echo -n "num_verts prob_arc num_arcs max_cap seed algo time measure")
 # for IND in $(seq 1 $REPEAT)
 # do
 #     LINE=$(echo -n "$LINE dinic$IND ek$IND mpm$IND")
@@ -35,7 +35,7 @@ do
     for IND in $(seq 1 $REPEAT)
     do
         echo "[LOOP] $IND"
-        echo -n "\t[EXEC] DINIC..."
+        echo -n "   [EXEC] DINIC..."
         DINIC=$(./Dinic $TIMEOUT "$FOLDER/$FILE")
         DINICTIME=$(echo $DINIC | cut -d" " -f2)
 
@@ -44,10 +44,10 @@ do
             echo "timeout!"
         else
             echo "done!"
-            echo "$LINE dinic $DINICTIME" >> $FOUT
+            echo "$LINE dinic $DINICTIME $IND" >> $FOUT
         fi
 
-        echo -n "\t[EXEC] EK..."
+        echo -n "   [EXEC] EK..."
         EK=$(./EK $TIMEOUT "$FOLDER/$FILE")
         EKTIME=$(echo $EK | cut -d" " -f2)
 
@@ -56,10 +56,10 @@ do
             echo "timeout!"
         else
             echo "done!"
-            echo "$LINE ek $EKTIME" >> $FOUT
+            echo "$LINE ek $EKTIME $IND" >> $FOUT
         fi
 
-        echo -n "\t[EXEC] MPM..."
+        echo -n "   [EXEC] MPM..."
         MPM=$(./MPM $TIMEOUT "$FOLDER/$FILE")
         MPMTIME=$(echo $MPM | cut -d" " -f2)
 
@@ -68,7 +68,10 @@ do
             echo "timeout!"
         else
             echo "done!"
-            echo "$LINE mpm $MPMTIME" >> $FOUT
+            echo "$LINE mpm $MPMTIME $IND" >> $FOUT
         fi
+
     done
+    
 done
+
